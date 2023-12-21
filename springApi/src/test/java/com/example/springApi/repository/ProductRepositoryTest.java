@@ -5,8 +5,15 @@ import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,6 +25,36 @@ class ProductRepositoryTest {
     @Autowired
     private ProductRepository productRepository;
 
+
+    @Test
+    void testList(){
+        Pageable pageable = PageRequest.of(1, 10);
+        Page<Object[]> result = productRepository.listWithImages(pageable);
+
+        result.getContent().forEach(arr -> {
+            log.info(Arrays.toString(arr));
+        });
+
+
+    }
+
+    @Test
+    void testUpdate(){
+        Product product = productRepository.selectOne(1L).orElseThrow();
+
+        product.changeName("상품명 변경");
+        product.changePrice(9000);
+
+        productRepository.save(product);
+    }
+
+
+    @Transactional
+    @Commit
+    @Test
+    void testDelete(){
+        productRepository.updateToDelete(98L,true);
+    }
 
     @Test
     void testInsert(){

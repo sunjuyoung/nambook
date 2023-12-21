@@ -1,6 +1,9 @@
 package com.example.springApi.controller;
 
+import com.example.springApi.dto.PageRequestDTO;
+import com.example.springApi.dto.PageResponseDTO;
 import com.example.springApi.dto.ProductDTO;
+import com.example.springApi.service.ProductService;
 import com.example.springApi.util.CustomFileUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -19,7 +22,13 @@ import java.util.Map;
 public class ProductController {
 
     private final CustomFileUtil fileUtil;
+    private final ProductService productService;
 
+    @GetMapping("/list")
+    public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO){
+
+        return productService.getList(pageRequestDTO);
+    }
 
 
     @GetMapping("/view/{fileName}")
