@@ -14,8 +14,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringTokenizer;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,6 +29,61 @@ public class ProductServiceImpl implements ProductService{
 
     private final ProductRepository productRepository;
 
+    @Override
+    public ProductDTO get(Long id) {
+        Product product = productRepository.selectOne(id).orElseThrow();
+        ProductDTO productDTO = entityToDTO(product);
+
+
+        return productDTO;
+    }
+
+    private ProductDTO entityToDTO(Product product) {
+
+        ProductDTO productDTO = ProductDTO.builder()
+                .id(product.getId())
+                .pname(product.getPname())
+                .pdesc(product.getPdesc())
+                .price(product.getPrice())
+                .build();
+
+        List<ProductImage> productImages = product.getImageList();
+        if(productImages == null || productImages.size() == 0){
+            return productDTO;
+        }
+        List<String> imageStrings = productImages.stream().map(productImage -> {
+            return productImage.getFileName();
+        }).collect(Collectors.toList());
+        productDTO.setUploadFileNames(imageStrings);
+        return productDTO;
+    }
+
+    @Override
+    public Long register(ProductDTO productDTO) {
+        Product product = dtoToEntity(productDTO);
+        Product saveProduct = productRepository.save(product);
+        StringTokenizer st = new StringTokenizer(productDTO.getPname(), ",");
+        st.nextToken();
+        return saveProduct.getId();
+    }
+
+    private Product dtoToEntity(ProductDTO productDTO) {
+        Product product = Product.builder()
+                .pname(productDTO.getPname())
+                .pdesc(productDTO.getPdesc())
+                .price(productDTO.getPrice())
+                .build();
+        List<String> uploadFileNames = productDTO.getUploadFileNames();
+
+        if(uploadFileNames == null){
+            return product;
+        }
+        uploadFileNames.stream().forEach(fileName -> {
+            product.addImageString(fileName);
+        });
+
+        return product;
+    }
 
     @Override
     public PageResponseDTO<ProductDTO> getList(PageRequestDTO pageRequestDTO) {

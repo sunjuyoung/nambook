@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -21,5 +23,5 @@ public class TodoDTO {
     private boolean completed;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private String dueDate;
+    private LocalDate dueDate;
 }

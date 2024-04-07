@@ -5,6 +5,7 @@ import com.example.springApi.dto.PageResponseDTO;
 import com.example.springApi.dto.ProductDTO;
 import com.example.springApi.service.ProductService;
 import com.example.springApi.util.CustomFileUtil;
+import jdk.jshell.execution.Util;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.core.io.Resource;
@@ -24,8 +25,17 @@ public class ProductController {
     private final CustomFileUtil fileUtil;
     private final ProductService productService;
 
+
+    @GetMapping("/{id}")
+    public ProductDTO get(@PathVariable Long id){
+        return productService.get(id);
+    }
+
     @GetMapping("/list")
     public PageResponseDTO<ProductDTO> list(PageRequestDTO pageRequestDTO){
+
+        //data type String check
+
 
         return productService.getList(pageRequestDTO);
     }
@@ -38,7 +48,7 @@ public class ProductController {
 
 
     @PostMapping("/")
-    public Map<String,String> register(ProductDTO productDTO) throws Exception{
+    public Map<String,Long> register(ProductDTO productDTO) throws Exception{
 
         List<MultipartFile> files = productDTO.getFiles();
 
@@ -46,6 +56,8 @@ public class ProductController {
 
         productDTO.setUploadFileNames(strings);
 
-        return Map.of("result","success");
+        Long register = productService.register(productDTO);
+
+        return Map.of("result",register);
     }
 }

@@ -3,7 +3,6 @@ package com.example.springApi.domain;
 
 import jakarta.persistence.Embeddable;
 import lombok.*;
-import org.springframework.web.bind.annotation.GetMapping;
 
 @Embeddable
 @Getter

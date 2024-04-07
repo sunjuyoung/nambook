@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -33,6 +34,34 @@ public class TodoServiceImpl implements TodoService{
         Todo todo = modelMapper.map(todoDTO, Todo.class);
         Todo saveTodo = todoRepository.save(todo);
         return saveTodo.getId();
+    }
+    @Override
+    public void modify(TodoDTO todoDTO) {
+
+        Optional<Todo> result = todoRepository.findById(todoDTO.getId());
+
+        Todo todo = result.orElseThrow();
+
+        todo.changeTitle(todoDTO.getTitle());
+        todo.changeDueDate(todoDTO.getDueDate());
+        todo.changeComplete(todoDTO.isCompleted());
+
+        todoRepository.save(todo);
+
+    }
+
+    @Override
+    public void remove(Long tno) {
+
+        todoRepository.deleteById(tno);
+
+    }
+    @Override
+    public TodoDTO get(Long tno) {
+        java.util.Optional<Todo> result = todoRepository.findById(tno);
+        Todo todo = result.orElseThrow();
+        TodoDTO dto = modelMapper.map(todo, TodoDTO.class);
+        return dto;
     }
 
     @Override

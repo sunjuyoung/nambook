@@ -22,7 +22,9 @@ public class Product {
 
     private String pname;
 
+
     private int price;
+
 
     private String pdesc;
 
