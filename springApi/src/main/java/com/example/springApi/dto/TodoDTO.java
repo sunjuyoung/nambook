@@ -6,13 +6,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class TodoDTO {
+public class TodoDTO implements Serializable {
 
     private Long id;
 
@@ -20,8 +21,10 @@ public class TodoDTO {
 
     private String writer;
 
-    private boolean completed;
+    private boolean complete;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate dueDate;
+
+
 }

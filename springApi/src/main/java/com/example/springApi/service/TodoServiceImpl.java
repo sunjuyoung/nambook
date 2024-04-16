@@ -31,8 +31,11 @@ public class TodoServiceImpl implements TodoService{
 
     @Override
     public Long register(TodoDTO todoDTO) {
-        Todo todo = modelMapper.map(todoDTO, Todo.class);
+        //Todo todo = modelMapper.map(todoDTO, Todo.class);
+        Todo todo = Todo.createTodo(todoDTO);
+        log.info("TNO: {}", todo.getWriter());
         Todo saveTodo = todoRepository.save(todo);
+
         return saveTodo.getId();
     }
     @Override
@@ -44,7 +47,7 @@ public class TodoServiceImpl implements TodoService{
 
         todo.changeTitle(todoDTO.getTitle());
         todo.changeDueDate(todoDTO.getDueDate());
-        todo.changeComplete(todoDTO.isCompleted());
+        todo.changeComplete(todoDTO.isComplete());
 
         todoRepository.save(todo);
 

@@ -1,5 +1,6 @@
 package com.example.springApi.domain;
 
+import com.example.springApi.dto.TodoDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -26,6 +27,18 @@ public class Todo {
 
     private boolean complete;
 
+
+
+
+    public static Todo createTodo(TodoDTO todoDTO){
+        return Todo.builder()
+                .title(todoDTO.getTitle())
+                .writer(todoDTO.getWriter())
+                .complete(todoDTO.isComplete())
+                .dueDate(todoDTO.getDueDate())
+                .build();
+
+    }
 
     private LocalDate dueDate;
     public void changeTitle(String title){
