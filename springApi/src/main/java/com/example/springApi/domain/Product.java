@@ -38,6 +38,10 @@ public class Product {
         this.price = price;
     }
 
+    public void changePdesc(String pdesc){
+        this.pdesc = pdesc;
+    }
+
     public void changeName(String pname){
         this.pname = pname;
     }
@@ -58,11 +62,15 @@ public class Product {
     }
 
 
+
+
     //실제 물리적인 삭제 대신에 특정한 칼럼의 값을 기준으로 해당 상품이
     //삭제되었는지 구분 , delete 대신 update를 사용
     public void changeDel(boolean delFlag){
         this.delFlag = delFlag;
     }
+
+
 
 
 

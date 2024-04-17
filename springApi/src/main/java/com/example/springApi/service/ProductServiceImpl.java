@@ -14,10 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.StringTokenizer;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,12 +27,36 @@ public class ProductServiceImpl implements ProductService{
     private final ProductRepository productRepository;
 
     @Override
+    public void remove(Long pno) {
+        productRepository.updateToDelete(pno, true);
+    }
+
+    //상세보기
+    @Override
     public ProductDTO get(Long id) {
         Product product = productRepository.selectOne(id).orElseThrow();
         ProductDTO productDTO = entityToDTO(product);
-
-
         return productDTO;
+    }
+
+    //수정
+    @Override
+    public void modify(ProductDTO productDTO) {
+        Product product = productRepository.findById(productDTO.getId()).orElseThrow();
+        product.changeName(productDTO.getPname());
+        product.changePdesc(productDTO.getPdesc());
+        product.changePrice(productDTO.getPrice());
+
+        product.clearList();
+        List<String> uploadFileNames = productDTO.getUploadFileNames();
+        if(uploadFileNames !=null && uploadFileNames.size() > 0){
+            uploadFileNames.stream().forEach(fileName -> {
+                product.addImageString(fileName);
+            });
+        }
+
+        productRepository.save(product);
+
     }
 
     private ProductDTO entityToDTO(Product product) {
@@ -58,6 +79,7 @@ public class ProductServiceImpl implements ProductService{
         return productDTO;
     }
 
+    //등록
     @Override
     public Long register(ProductDTO productDTO) {
         Product product = dtoToEntity(productDTO);
@@ -85,6 +107,7 @@ public class ProductServiceImpl implements ProductService{
         return product;
     }
 
+    //리스트
     @Override
     public PageResponseDTO<ProductDTO> getList(PageRequestDTO pageRequestDTO) {
         Pageable pageable = PageRequest.of(pageRequestDTO.getPage()-1, pageRequestDTO.getSize());
