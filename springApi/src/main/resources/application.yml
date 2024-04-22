@@ -12,7 +12,7 @@ spring:
 
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     properties:
         hibernate:
             dialect: org.hibernate.dialect.PostgreSQLDialect
@@ -24,3 +24,8 @@ com:
   example:
     upload:
       path: C:\\Users\\SUN\\work\\springboot-react-nambook\\springApi\\upload
+
+
+logging:
+  level:
+    org.springframework.security.web: trace
