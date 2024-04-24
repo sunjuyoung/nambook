@@ -1,12 +1,12 @@
 import { lazy, Suspense } from "react";
 import { Navigate } from "react-router-dom";
 
-const productRouter = () => {
-  const Loading = <div>Loading...</div>;
-  const ProductList = lazy(() => import("../pages/products/ListPage"));
-  const ProductAdd = lazy(() => import("../pages/products/AddPage"));
-  const ProductRead = lazy(() => import("../pages/products/ReadPage"));
+const Loading = <div>Loading...</div>;
+const ProductList = lazy(() => import("../pages/products/ListPage"));
+const ProductAdd = lazy(() => import("../pages/products/AddPage"));
+const ProductRead = lazy(() => import("../pages/products/ReadPage"));
 
+const productRouter = () => {
   return [
     {
       path: "list",

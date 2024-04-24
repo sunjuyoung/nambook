@@ -3,6 +3,7 @@ import useCustomMove from "../../hooks/useCustomMove";
 import { API_SERVER_HOST, getList } from "../../api/productsApi";
 import FetchingModal from "../common/FetchingModal";
 import PageComponent from "../common/PageComponent";
+import useCustomLogin from "../../hooks/useCustomLogin";
 
 const host = API_SERVER_HOST;
 
@@ -22,6 +23,8 @@ const initState = {
 const ListComponent = () => {
   const { page, size, refresh, moveToList, moveToRead } = useCustomMove();
 
+  const { exceptionHandler } = useCustomLogin();
+
   //serverData는 나중에 사용
   const [serverData, setServerData] = useState(initState);
 
@@ -31,11 +34,15 @@ const ListComponent = () => {
   useEffect(() => {
     setFetching(true);
 
-    getList({ page, size }).then((data) => {
-      console.log(data);
-      setServerData(data);
-      setFetching(false);
-    });
+    getList({ page, size })
+      .then((data) => {
+        console.log(data);
+        setServerData(data);
+        setFetching(false);
+      })
+      .catch((e) => {
+        exceptionHandler(e);
+      });
   }, [page, size, refresh]);
 
   return (
@@ -43,7 +50,7 @@ const ListComponent = () => {
       {fetching ? <FetchingModal /> : <></>}
 
       <div className="flex flex-wrap p-6 mx-auto">
-        {serverData.dtoList.map((product) => (
+        {serverData.dtoList?.map((product) => (
           <div
             key={product.id}
             className="w-1/2 p-1 border-2 rounded shadow-md"

@@ -1,4 +1,4 @@
-import { BasicMenu } from "../components/menus/BasicMenu";
+import BasicMenu from "../components/menus/BasicMenu";
 
 // children 사용하여 내부에 다른 컴포넌트를 적용할 수 있습니다.
 const BasicLayout = ({ children }) => {

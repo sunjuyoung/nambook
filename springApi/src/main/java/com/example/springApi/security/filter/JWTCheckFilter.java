@@ -69,7 +69,7 @@ public class JWTCheckFilter extends OncePerRequestFilter {
             log.info("JWT Exception : " + e.getMessage());
 
             Gson gson = new Gson();
-            String msg = gson.toJson(Map.of("error","Error Access Token"));
+            String msg = gson.toJson(Map.of("error","ERROR_ACCESS_TOKEN"));
 
             response.setContentType("application/json;charset=utf-8");
             PrintWriter writer = response.getWriter();
