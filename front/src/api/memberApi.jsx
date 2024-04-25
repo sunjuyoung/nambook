@@ -14,3 +14,9 @@ export const loginMember = async (loginParam) => {
   const res = await axios.post(`${host}/login`, form, header);
   return res.data;
 };
+
+export const goolgLogin = async (credential) => {
+  console.log("credential", credential);
+  const res = await axios.get(`${host}/google?credential=${credential}`);
+  return res.data;
+};

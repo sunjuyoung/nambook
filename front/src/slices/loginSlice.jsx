@@ -7,6 +7,8 @@ import { setCookie, getCookie, removeCookie } from "../util/cookieUtil";
 const initstate = {
   email: "",
 };
+
+//쿠키가 있다면 초기값 대체
 const loadMemberCookie = () => {
   const memberInfo = getCookie("member");
   if (memberInfo && memberInfo.nickname) {
@@ -44,7 +46,7 @@ const loginSlice = createSlice({
 
   extraReducers: (builder) => {
     builder
-      //완료
+      //로그인 비동기 통신을 호출 정상 완료 시 유저 정보 쿠키에 저장
       .addCase(loginAsync.fulfilled, (state, action) => {
         console.log("fulfilled");
         const payload = action.payload;

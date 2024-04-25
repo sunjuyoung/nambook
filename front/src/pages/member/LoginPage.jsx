@@ -1,3 +1,4 @@
+import GoogleLoginComponent from "../../components/member/GoogleLoginComponent";
 import LoginComponent from "../../components/member/LoginComponent";
 import BasicMenu from "../../components/menus/BasicMenu";
 const LoginPage = () => {
@@ -7,6 +8,7 @@ const LoginPage = () => {
 
       <div className="flex flex-wrap items-center justify-center w-full h-full border-2">
         <LoginComponent />
+        <GoogleLoginComponent />
       </div>
     </div>
   );

@@ -30,6 +30,7 @@ public class ApiRefreshController {
         String accessToken = authHeader.substring(7);
 
         //accessToken 만료되지 않았다면
+        //accessToken 만료되어 호출한건데 체크를 또?  ,고의로 직접 /api/member/refresh 를 호출할 수도 있으니 체크
         if(checkExpiredToken(accessToken) == false){
             return Map.of("accessToken",accessToken,"refreshToken",refreshToken);
         }
