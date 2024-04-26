@@ -1,4 +1,5 @@
 import axios from "axios";
+import jwtAxios from "../util/jwtUtil";
 
 export const API_SERVER_HOST = "http://localhost:8080";
 
@@ -18,5 +19,10 @@ export const loginMember = async (loginParam) => {
 export const goolgLogin = async (credential) => {
   console.log("credential", credential);
   const res = await axios.get(`${host}/google?credential=${credential}`);
+  return res.data;
+};
+
+export const modifyMember = async (member) => {
+  const res = await jwtAxios.put(`${host}/modify`, member);
   return res.data;
 };

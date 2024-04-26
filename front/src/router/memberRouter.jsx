@@ -4,6 +4,7 @@ const Login = lazy(() => import("../pages/member/LoginPage"));
 const Logout = lazy(() => import("../pages/member/LogoutPage"));
 
 const Kakao = lazy(() => import("../pages/member/KakaoRedirectPage"));
+const Modify = lazy(() => import("../pages/member/ModifyPage"));
 
 const memberRouter = () => {
   return [
@@ -29,6 +30,14 @@ const memberRouter = () => {
       element: (
         <Suspense fallback={Loading}>
           <Kakao />
+        </Suspense>
+      ),
+    },
+    {
+      path: "modify",
+      element: (
+        <Suspense fallback={Loading}>
+          <Modify />
         </Suspense>
       ),
     },

@@ -44,15 +44,12 @@ public class MemberDTO extends User {
     //현재 사용자의 정보를 Mpa타입으로 변환
     //JWT 토큰 생성시 필요
     public Map<String, Object> getClaims() {
-
         Map<String, Object> dataMap = new HashMap<>();
-
         dataMap.put("email", email);
         dataMap.put("pw",pw);
         dataMap.put("nickname", nickname);
         dataMap.put("social", social);
         dataMap.put("roleNames", roleNames);
-
         return dataMap;
     }
 }

@@ -31,10 +31,13 @@ const loginSlice = createSlice({
   initialState: loadMemberCookie() || initstate, //쿠키가 없다면 초깃값 사용
   reducers: {
     login: (state, action) => {
-      console.log("login..");
-      const data = action.payload;
+      console.log("loginSlice..");
 
-      return { email: data.email };
+      //소셜 로그인 회원가입시 사용
+      const data = action.payload;
+      setCookie("member", JSON.stringify(data), 1); //1일
+
+      return data;
     },
     logout: (state, action) => {
       console.log("logout..");
